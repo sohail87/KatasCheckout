@@ -7,7 +7,7 @@ namespace Checkout
     {
         public int Scan(char Sku)
         {
-            return 50;
+            return Sku == 'A' ? 50 : 30;
         }
     }
 
