@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Checkout
@@ -16,9 +17,17 @@ namespace Checkout
             {'D', 15}
         };
 
-        public int Scan(char Sku)
+        private readonly List<char> _basket = new List<char>();
+
+        public void Scan(char Sku)
         {
-            _runningTotal += _prices[Sku];
+            _basket.Add(Sku);
+
+        }
+
+        public int GetTotal()
+        {
+            _basket.ForEach(sku => _runningTotal += _prices[sku]);
             if (_runningTotal == 150) _runningTotal -= 20;
             return _runningTotal;
         }
@@ -32,32 +41,37 @@ namespace Checkout
         [TestMethod]
         public void When_Scanning_1_A_Sku_Then_Total_Is_50()
         {
-            Assert.AreEqual(50, _checkout.Scan('A'));
+            _checkout.Scan('A');
+            Assert.AreEqual(50, _checkout.GetTotal());
         }
 
         [TestMethod]
         public void When_Scanning_1_B_Sku_Then_Total_Is_30()
         {
-            Assert.AreEqual(30, _checkout.Scan('B'));
+            _checkout.Scan('B');
+            Assert.AreEqual(30, _checkout.GetTotal());
         }
 
         [TestMethod]
         public void When_Scanning_1_C_Sku_Then_Total_Is_20()
         {
-            Assert.AreEqual(20, _checkout.Scan('C'));
+            _checkout.Scan('C');
+            Assert.AreEqual(20, _checkout.GetTotal());
         }
 
         [TestMethod]
         public void When_Scanning_1_D_Sku_Then_Total_Is_15()
         {
-            Assert.AreEqual(15, _checkout.Scan('D'));
+            _checkout.Scan('D');
+            Assert.AreEqual(15, _checkout.GetTotal());
         }
 
         [TestMethod]
         public void When_Scanning_2_A_Sku_Then_Total_Is_100()
         {
             _checkout.Scan('A');
-            Assert.AreEqual(100, _checkout.Scan('A'));
+            _checkout.Scan('A');
+            Assert.AreEqual(100, _checkout.GetTotal());
         }
 
         [TestMethod]
@@ -65,7 +79,8 @@ namespace Checkout
         {
             _checkout.Scan('A');
             _checkout.Scan('A');
-            Assert.AreEqual(130, _checkout.Scan('A'));
+            _checkout.Scan('A');
+            Assert.AreEqual(130, _checkout.GetTotal());
         }
     }
 }
