@@ -38,8 +38,11 @@ namespace Checkout
 
         private void ApplyDiscount()
         {
-            var discountRule = new DiscountRule('A', 3, -20);
-            _runningTotal += discountRule.GetTotalDiscountFor(_basket);
+            var discountRuleA = new DiscountRule('A', 3, -20);
+            _runningTotal += discountRuleA.GetTotalDiscountFor(_basket);
+
+            var discountRuleB = new DiscountRule('B', 2, -15);
+            _runningTotal += discountRuleB.GetTotalDiscountFor(_basket);
         }
     }
 
