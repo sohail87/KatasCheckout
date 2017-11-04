@@ -7,21 +7,17 @@ namespace Checkout
 {
     public class Checkout
     {
+        public Checkout(Dictionary<char, int> prices, List<DiscountRule> discountRules)
+        {
+            _prices = prices;
+            _discountRules = discountRules;
+        }
+
         private int _runningTotal;
 
-        private readonly Dictionary<char, int> _prices = new Dictionary<char, int>()
-        {
-            {'A', 50},
-            {'B', 30},
-            {'C', 20},
-            {'D', 15}
-        };
+        private readonly Dictionary<char, int> _prices;
 
-        private readonly List<DiscountRule> _discountRules = new List<DiscountRule>()
-        {
-            new DiscountRule('A', 3, -20),
-            new DiscountRule('B', 2, -15)
-        };
+        private readonly List<DiscountRule> _discountRules;
 
         private readonly List<char> _basket = new List<char>();
 
@@ -44,11 +40,11 @@ namespace Checkout
 
         private void ApplyDiscount()
         {
-            _discountRules.ForEach(d=> _runningTotal += d.GetTotalDiscountFor(_basket));
+            _discountRules.ForEach(d => _runningTotal += d.GetTotalDiscountFor(_basket));
         }
     }
 
-    internal class DiscountRule
+    public class DiscountRule
     {
         public char Sku { get; }
         public int Quantity { get; }
@@ -72,7 +68,28 @@ namespace Checkout
     [TestClass]
     public class SpecTests
     {
-        private readonly Checkout _checkout = new Checkout();
+        private Checkout _checkout;
+
+        [TestInitialize]
+        public void TestSetup()
+        {
+            var prices = new Dictionary<char, int>()
+            {
+                {'A', 50},
+                {'B', 30},
+                {'C', 20},
+                {'D', 15}
+            };
+
+            var discountRules = new List<DiscountRule>()
+            {
+                new DiscountRule('A', 3, -20),
+                new DiscountRule('B', 2, -15)
+            };
+
+            _checkout = new Checkout(prices, discountRules);
+        }
+
 
         [TestMethod]
         public void When_Scanning_1_A_Sku_Then_Total_Is_50()
@@ -118,6 +135,7 @@ namespace Checkout
             _checkout.Scan('A');
             Assert.AreEqual(130, _checkout.GetTotal());
         }
+
         [TestMethod]
         public void When_Scanning_6_A_Sku_Then_Total_Is_260()
         {
@@ -129,6 +147,7 @@ namespace Checkout
             _checkout.Scan('A');
             Assert.AreEqual(260, _checkout.GetTotal());
         }
+
         [TestMethod]
         public void When_Scanning_2_B_Sku_Then_Total_Is_45()
         {
@@ -136,6 +155,7 @@ namespace Checkout
             _checkout.Scan('B');
             Assert.AreEqual(45, _checkout.GetTotal());
         }
+
         [TestMethod]
         public void When_Scanning_4_B_Sku_Then_Total_Is_90()
         {
