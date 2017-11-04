@@ -28,10 +28,15 @@ namespace Checkout
         public int GetTotal()
         {
             _basket.ForEach(sku => _runningTotal += _prices[sku]);
+            ApplyDiscount();
+            return _runningTotal;
+        }
+
+        private void ApplyDiscount()
+        {
             var aCount = _basket.Count(sku => sku.Equals('A'));
             var discountA3instances = aCount / 3;
             _runningTotal -= 20 * discountA3instances;
-            return _runningTotal;
         }
     }
 
