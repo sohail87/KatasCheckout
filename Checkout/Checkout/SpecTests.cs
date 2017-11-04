@@ -34,9 +34,24 @@ namespace Checkout
 
         private void ApplyDiscount()
         {
-            var aCount = _basket.Count(sku => sku.Equals('A'));
-            var discountA3instances = aCount / 3;
-            _runningTotal -= 20 * discountA3instances;
+            var discountRule = new DiscountRule('A', 3, -20);
+            var skuCount = _basket.Count(sku => sku.Equals(discountRule.Sku));
+            var instances = skuCount / discountRule.Quantity;
+            _runningTotal += instances * discountRule.Amount;
+        }
+    }
+
+    internal class DiscountRule
+    {
+        public char Sku { get; }
+        public int Quantity { get; }
+        public int Amount { get; }
+
+        public DiscountRule(char sku, int quantity, int amount)
+        {
+            Sku = sku;
+            Quantity = quantity;
+            Amount = amount;
         }
     }
 
