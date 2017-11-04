@@ -165,5 +165,13 @@ namespace Checkout
             _checkout.Scan('B');
             Assert.AreEqual(90, _checkout.GetTotal());
         }
+        [TestMethod]
+        public void When_Scanning_B_A_B_Sku_Then_Total_Is_95()
+        {
+            _checkout.Scan('B');
+            _checkout.Scan('A');
+            _checkout.Scan('B');
+            Assert.AreEqual(95, _checkout.GetTotal());
+        }
     }
 }
