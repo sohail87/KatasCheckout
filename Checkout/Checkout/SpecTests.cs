@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Checkout
@@ -7,7 +8,8 @@ namespace Checkout
     {
         public int Scan(char Sku)
         {
-            return Sku == 'A' ? 50 : 30;
+            var priceList = new Dictionary<char, int>() {{'A', 50}, {'B', 30}};
+            return priceList[Sku];
         }
     }
 
