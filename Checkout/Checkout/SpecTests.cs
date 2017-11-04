@@ -173,5 +173,10 @@ namespace Checkout
             _checkout.Scan('B');
             Assert.AreEqual(95, _checkout.GetTotal());
         }
+        [TestMethod]
+        public void When_Scanning_Nothing_Then_Total_Is_0()
+        {
+            Assert.AreEqual(0, _checkout.GetTotal());
+        }
     }
 }
