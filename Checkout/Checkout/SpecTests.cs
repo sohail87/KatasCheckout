@@ -7,14 +7,14 @@ namespace Checkout
     public class Checkout
     {
         private int _runningTotal;
-
-        public int Scan(char Sku)
-        {
-            var priceList = new Dictionary<char, int>()
+        private readonly Dictionary<char, int> _prices = new Dictionary<char, int>()
             {
                 {'A', 50}, {'B', 30}, {'C',20 }, {'D',15 }
             };
-            _runningTotal += priceList[Sku];
+
+        public int Scan(char Sku)
+        {
+            _runningTotal += _prices[Sku];
             return _runningTotal;
         }
     }
