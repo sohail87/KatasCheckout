@@ -22,14 +22,18 @@ namespace Checkout
         public void Scan(char Sku)
         {
             _basket.Add(Sku);
-
         }
 
         public int GetTotal()
         {
-            _basket.ForEach(sku => _runningTotal += _prices[sku]);
+            SumBasketItems();
             ApplyDiscount();
             return _runningTotal;
+        }
+
+        private void SumBasketItems()
+        {
+            _basket.ForEach(sku => _runningTotal += _prices[sku]);
         }
 
         private void ApplyDiscount()
