@@ -28,7 +28,7 @@ namespace Checkout
         public int GetTotal()
         {
             _basket.ForEach(sku => _runningTotal += _prices[sku]);
-            if (_runningTotal == 150) _runningTotal -= 20;
+            if (_basket.Count(sku=>sku.Equals('A')) == 3) _runningTotal -= 20;
             return _runningTotal;
         }
     }
