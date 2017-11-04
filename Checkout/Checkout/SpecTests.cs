@@ -10,7 +10,10 @@ namespace Checkout
 
         public int Scan(char Sku)
         {
-            var priceList = new Dictionary<char, int>() {{'A', 50}, {'B', 30}};
+            var priceList = new Dictionary<char, int>()
+            {
+                {'A', 50}, {'B', 30}, {'C',20 }
+            };
             _runningTotal += priceList[Sku];
             return _runningTotal;
         }
