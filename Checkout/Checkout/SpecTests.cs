@@ -6,10 +6,13 @@ namespace Checkout
 {
     public class Checkout
     {
+        private int _runningTotal;
+
         public int Scan(char Sku)
         {
             var priceList = new Dictionary<char, int>() {{'A', 50}, {'B', 30}};
-            return priceList[Sku];
+            _runningTotal += priceList[Sku];
+            return _runningTotal;
         }
     }
 
@@ -32,9 +35,8 @@ namespace Checkout
         [TestMethod]
         public void When_Scanning_2_A_Sku_Then_Total_Is_100()
         {
-            var runningTotal = _checkout.Scan('A');
-            runningTotal = _checkout.Scan('A');
-            Assert.AreEqual(100, runningTotal);
+            _checkout.Scan('A');
+            Assert.AreEqual(100, _checkout.Scan('A'));
         }
     }
 }
