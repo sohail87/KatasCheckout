@@ -35,9 +35,7 @@ namespace Checkout
         private void ApplyDiscount()
         {
             var discountRule = new DiscountRule('A', 3, -20);
-            var skuCount = _basket.Count(sku => sku.Equals(discountRule.Sku));
-            var instances = skuCount / discountRule.Quantity;
-            _runningTotal += instances * discountRule.Amount;
+            _runningTotal += discountRule.GetTotalDiscountFor(_basket);
         }
     }
 
@@ -52,6 +50,13 @@ namespace Checkout
             Sku = sku;
             Quantity = quantity;
             Amount = amount;
+        }
+
+        public int GetTotalDiscountFor(List<char> basket)
+        {
+            var skuCount = basket.Count(sku => sku.Equals(Sku));
+            var instances = skuCount / Quantity;
+            return instances * Amount;
         }
     }
 
