@@ -21,5 +21,11 @@ namespace Checkout
         {
             Assert.AreEqual(50, _checkout.Scan('A'));
         }
+
+        [TestMethod]
+        public void When_Scanning_1_B_Sku_Then_Total_Is_30()
+        {
+            Assert.AreEqual(30, _checkout.Scan('B'));
+        }
     }
 }
