@@ -28,6 +28,7 @@ namespace Checkout
 
         public int GetTotal()
         {
+            _runningTotal = 0;
             SumBasketItems();
             ApplyDiscount();
             return _runningTotal;
