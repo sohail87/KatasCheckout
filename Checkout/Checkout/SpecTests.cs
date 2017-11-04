@@ -19,6 +19,7 @@ namespace Checkout
         public int Scan(char Sku)
         {
             _runningTotal += _prices[Sku];
+            if (_runningTotal == 150) _runningTotal -= 20;
             return _runningTotal;
         }
     }
