@@ -12,7 +12,7 @@ namespace Checkout
         {
             var priceList = new Dictionary<char, int>()
             {
-                {'A', 50}, {'B', 30}, {'C',20 }
+                {'A', 50}, {'B', 30}, {'C',20 }, {'D',15 }
             };
             _runningTotal += priceList[Sku];
             return _runningTotal;
