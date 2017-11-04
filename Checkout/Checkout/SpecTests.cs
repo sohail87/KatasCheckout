@@ -41,13 +41,6 @@ namespace Checkout
         }
 
         [TestMethod]
-        public void When_Scanning_2_A_Sku_Then_Total_Is_100()
-        {
-            _checkout.Scan('A');
-            Assert.AreEqual(100, _checkout.Scan('A'));
-        }
-
-        [TestMethod]
         public void When_Scanning_1_C_Sku_Then_Total_Is_20()
         {
             Assert.AreEqual(20, _checkout.Scan('C'));
@@ -57,6 +50,21 @@ namespace Checkout
         public void When_Scanning_1_D_Sku_Then_Total_Is_15()
         {
             Assert.AreEqual(15, _checkout.Scan('D'));
+        }
+
+        [TestMethod]
+        public void When_Scanning_2_A_Sku_Then_Total_Is_100()
+        {
+            _checkout.Scan('A');
+            Assert.AreEqual(100, _checkout.Scan('A'));
+        }
+
+        [TestMethod]
+        public void When_Scanning_3_A_Sku_Then_Total_Is_130()
+        {
+            _checkout.Scan('A');
+            _checkout.Scan('A');
+            Assert.AreEqual(130, _checkout.Scan('A'));
         }
     }
 }
