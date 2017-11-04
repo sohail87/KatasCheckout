@@ -178,5 +178,12 @@ namespace Checkout
         {
             Assert.AreEqual(0, _checkout.GetTotal());
         }
+        [TestMethod]
+        public void When_Getting_Total_Twice_Then_Total_Remains_The_Same()
+        {
+            _checkout.Scan('A');
+            Assert.AreEqual(50, _checkout.GetTotal());
+            Assert.AreEqual(50, _checkout.GetTotal());
+        }
     }
 }
