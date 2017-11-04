@@ -17,6 +17,12 @@ namespace Checkout
             {'D', 15}
         };
 
+        private readonly List<DiscountRule> _discountRules = new List<DiscountRule>()
+        {
+            new DiscountRule('A', 3, -20),
+            new DiscountRule('B', 2, -15)
+        };
+
         private readonly List<char> _basket = new List<char>();
 
         public void Scan(char Sku)
@@ -38,11 +44,7 @@ namespace Checkout
 
         private void ApplyDiscount()
         {
-            var discountRuleA = new DiscountRule('A', 3, -20);
-            _runningTotal += discountRuleA.GetTotalDiscountFor(_basket);
-
-            var discountRuleB = new DiscountRule('B', 2, -15);
-            _runningTotal += discountRuleB.GetTotalDiscountFor(_basket);
+            _discountRules.ForEach(d=> _runningTotal += d.GetTotalDiscountFor(_basket));
         }
     }
 
