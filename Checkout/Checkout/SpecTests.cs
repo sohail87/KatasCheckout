@@ -29,5 +29,12 @@ namespace Checkout
         {
             Assert.AreEqual(30, _checkout.Scan('B'));
         }
+        [TestMethod]
+        public void When_Scanning_2_A_Sku_Then_Total_Is_100()
+        {
+            var runningTotal = _checkout.Scan('A');
+            runningTotal = _checkout.Scan('A');
+            Assert.AreEqual(100, runningTotal);
+        }
     }
 }
