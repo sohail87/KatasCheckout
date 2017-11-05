@@ -74,9 +74,9 @@ namespace Checkout
             _value = value;
         }
 
-        public void Add(Money money)
+        public Money Add(Money money)
         {
-            throw new NotImplementedException();
+            return new Money(_value + money._value);
         }
     }
     [TestClass]
