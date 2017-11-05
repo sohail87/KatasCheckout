@@ -36,12 +36,12 @@ namespace Checkout
 
         private void SumBasketItems()
         {
-            _basket.ForEach(sku => _runningTotal.Add(_prices[sku]));
+            _basket.ForEach(sku => _runningTotal = _runningTotal.Add(_prices[sku]));
         }
 
         private void ApplyDiscount()
         {
-            _discountRules.ForEach(d => _runningTotal.Add(d.GetTotalDiscountFor(_basket)));
+            _discountRules.ForEach(d => _runningTotal = _runningTotal.Add(d.GetTotalDiscountFor(_basket)));
         }
     }
 
@@ -188,7 +188,7 @@ namespace Checkout
             _checkout.Scan('B');
             _checkout.Scan('B');
             _checkout.Scan('B');
-            Assert.AreEqual(new Money(50), _checkout.GetTotal());
+            Assert.AreEqual(new Money(90), _checkout.GetTotal());
         }
         [TestMethod]
         public void When_Scanning_B_A_B_Sku_Then_Total_Is_95()
