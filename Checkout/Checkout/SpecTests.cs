@@ -78,6 +78,17 @@ namespace Checkout
         {
             return new Money(_value + money._value);
         }
+
+        public override bool Equals(object obj)
+        {
+            var money = (Money) obj;
+                return money != null && money._value.Equals(this._value);
+        }
+
+        public override string ToString()
+        {
+            return _value.ToString();
+        }
     }
     [TestClass]
     public class SpecTests
@@ -109,28 +120,28 @@ namespace Checkout
         public void When_Scanning_1_A_Sku_Then_Total_Is_50()
         {
             _checkout.Scan('A');
-            Assert.AreEqual(50, _checkout.GetTotal());
+            Assert.AreEqual(new Money(50), _checkout.GetTotal());
         }
 
         [TestMethod]
         public void When_Scanning_1_B_Sku_Then_Total_Is_30()
         {
             _checkout.Scan('B');
-            Assert.AreEqual(30, _checkout.GetTotal());
+            Assert.AreEqual(new Money(30), _checkout.GetTotal());
         }
 
         [TestMethod]
         public void When_Scanning_1_C_Sku_Then_Total_Is_20()
         {
             _checkout.Scan('C');
-            Assert.AreEqual(20, _checkout.GetTotal());
+            Assert.AreEqual(new Money(20), _checkout.GetTotal());
         }
 
         [TestMethod]
         public void When_Scanning_1_D_Sku_Then_Total_Is_15()
         {
             _checkout.Scan('D');
-            Assert.AreEqual(15, _checkout.GetTotal());
+            Assert.AreEqual(new Money(15), _checkout.GetTotal());
         }
 
         [TestMethod]
@@ -138,7 +149,7 @@ namespace Checkout
         {
             _checkout.Scan('A');
             _checkout.Scan('A');
-            Assert.AreEqual(100, _checkout.GetTotal());
+            Assert.AreEqual(new Money(100), _checkout.GetTotal());
         }
 
         [TestMethod]
@@ -147,7 +158,7 @@ namespace Checkout
             _checkout.Scan('A');
             _checkout.Scan('A');
             _checkout.Scan('A');
-            Assert.AreEqual(130, _checkout.GetTotal());
+            Assert.AreEqual(new Money(130), _checkout.GetTotal());
         }
 
         [TestMethod]
@@ -159,7 +170,7 @@ namespace Checkout
             _checkout.Scan('A');
             _checkout.Scan('A');
             _checkout.Scan('A');
-            Assert.AreEqual(260, _checkout.GetTotal());
+            Assert.AreEqual(new Money(260), _checkout.GetTotal());
         }
 
         [TestMethod]
@@ -167,7 +178,7 @@ namespace Checkout
         {
             _checkout.Scan('B');
             _checkout.Scan('B');
-            Assert.AreEqual(45, _checkout.GetTotal());
+            Assert.AreEqual(new Money(45), _checkout.GetTotal());
         }
 
         [TestMethod]
@@ -177,7 +188,7 @@ namespace Checkout
             _checkout.Scan('B');
             _checkout.Scan('B');
             _checkout.Scan('B');
-            Assert.AreEqual(90, _checkout.GetTotal());
+            Assert.AreEqual(new Money(50), _checkout.GetTotal());
         }
         [TestMethod]
         public void When_Scanning_B_A_B_Sku_Then_Total_Is_95()
@@ -185,19 +196,19 @@ namespace Checkout
             _checkout.Scan('B');
             _checkout.Scan('A');
             _checkout.Scan('B');
-            Assert.AreEqual(95, _checkout.GetTotal());
+            Assert.AreEqual(new Money(95), _checkout.GetTotal());
         }
         [TestMethod]
         public void When_Scanning_Nothing_Then_Total_Is_0()
         {
-            Assert.AreEqual(0, _checkout.GetTotal());
+            Assert.AreEqual(new Money(0), _checkout.GetTotal());
         }
         [TestMethod]
         public void When_Getting_Total_Twice_Then_Total_Remains_The_Same()
         {
             _checkout.Scan('A');
-            Assert.AreEqual(50, _checkout.GetTotal());
-            Assert.AreEqual(50, _checkout.GetTotal());
+            Assert.AreEqual(new Money(50), _checkout.GetTotal());
+            Assert.AreEqual(new Money(50), _checkout.GetTotal());
         }
     }
 
