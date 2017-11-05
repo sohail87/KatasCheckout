@@ -7,15 +7,15 @@ namespace Checkout
 {
     public class Checkout
     {
-        public Checkout(Dictionary<char, int> prices, List<DiscountRule> discountRules)
+        public Checkout(Dictionary<char, Money> prices, List<DiscountRule> discountRules)
         {
             _prices = prices;
             _discountRules = discountRules;
         }
 
-        private int _runningTotal;
+        private Money _runningTotal;
 
-        private readonly Dictionary<char, int> _prices;
+        private readonly Dictionary<char, Money> _prices;
 
         private readonly List<DiscountRule> _discountRules;
 
@@ -26,9 +26,9 @@ namespace Checkout
             _basket.Add(Sku);
         }
 
-        public int GetTotal()
+        public Money GetTotal()
         {
-            _runningTotal = 0;
+            _runningTotal = new Money(0);
             SumBasketItems();
             ApplyDiscount();
             return _runningTotal;
@@ -36,12 +36,12 @@ namespace Checkout
 
         private void SumBasketItems()
         {
-            _basket.ForEach(sku => _runningTotal += _prices[sku]);
+            _basket.ForEach(sku => _runningTotal.Add(_prices[sku]));
         }
 
         private void ApplyDiscount()
         {
-            _discountRules.ForEach(d => _runningTotal += d.GetTotalDiscountFor(_basket));
+            _discountRules.ForEach(d => _runningTotal.Add(d.GetTotalDiscountFor(_basket)));
         }
     }
 
@@ -58,14 +58,27 @@ namespace Checkout
             Amount = amount;
         }
 
-        public int GetTotalDiscountFor(List<char> basket)
+        public Money GetTotalDiscountFor(List<char> basket)
         {
             var skuCount = basket.Count(sku => sku.Equals(Sku));
             var instances = skuCount / Quantity;
-            return instances * Amount;
+            return new Money(instances * Amount);
         }
     }
+    public class Money
+    {
+        private readonly int _value;
 
+        public Money(int value)
+        {
+            _value = value;
+        }
+
+        public void Add(Money money)
+        {
+            throw new NotImplementedException();
+        }
+    }
     [TestClass]
     public class SpecTests
     {
@@ -74,12 +87,12 @@ namespace Checkout
         [TestInitialize]
         public void TestSetup()
         {
-            var prices = new Dictionary<char, int>()
+            var prices = new Dictionary<char, Money>()
             {
-                {'A', 50},
-                {'B', 30},
-                {'C', 20},
-                {'D', 15}
+                {'A', new Money(50)},
+                {'B', new Money(30)},
+                {'C', new Money(20)},
+                {'D', new Money(15)}
             };
 
             var discountRules = new List<DiscountRule>()
@@ -187,4 +200,6 @@ namespace Checkout
             Assert.AreEqual(50, _checkout.GetTotal());
         }
     }
+
+
 }
