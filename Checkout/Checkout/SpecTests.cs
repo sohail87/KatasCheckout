@@ -82,8 +82,13 @@ namespace Checkout
 
         public override bool Equals(object obj)
         {
-            var money = (Money) obj;
-            return money != null && money._value.Equals(this._value);
+            var moneyToCompare = (Money) obj;
+            return moneyToCompare != null && this._value.Equals(moneyToCompare._value);
+        }
+
+        public override int GetHashCode()
+        {
+            return _value.GetHashCode();
         }
 
         public override string ToString()
@@ -115,8 +120,8 @@ namespace Checkout
 
             var discountRules = new List<DiscountRule>()
             {
-                new DiscountRule('A', 3, -20),
-                new DiscountRule('B', 2, -15)
+                new DiscountRule('A', 3, new Money(-20)),
+                new DiscountRule('B', 2, new Money(-15))
             };
 
             _checkout = new Checkout(prices, discountRules);
