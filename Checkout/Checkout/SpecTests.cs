@@ -65,6 +65,7 @@ namespace Checkout
             return Amount.MultiplyBy(instances);
         }
     }
+
     public class Money
     {
         private readonly int _value;
@@ -82,7 +83,7 @@ namespace Checkout
         public override bool Equals(object obj)
         {
             var money = (Money) obj;
-                return money != null && money._value.Equals(this._value);
+            return money != null && money._value.Equals(this._value);
         }
 
         public override string ToString()
@@ -95,6 +96,7 @@ namespace Checkout
             return new Money(instances * _value);
         }
     }
+
     [TestClass]
     public class SpecTests
     {
@@ -195,6 +197,7 @@ namespace Checkout
             _checkout.Scan('B');
             Assert.AreEqual(new Money(90), _checkout.GetTotal());
         }
+
         [TestMethod]
         public void When_Scanning_B_A_B_Sku_Then_Total_Is_95()
         {
@@ -203,11 +206,13 @@ namespace Checkout
             _checkout.Scan('B');
             Assert.AreEqual(new Money(95), _checkout.GetTotal());
         }
+
         [TestMethod]
         public void When_Scanning_Nothing_Then_Total_Is_0()
         {
             Assert.AreEqual(new Money(0), _checkout.GetTotal());
         }
+
         [TestMethod]
         public void When_Getting_Total_Twice_Then_Total_Remains_The_Same()
         {
@@ -216,6 +221,4 @@ namespace Checkout
             Assert.AreEqual(new Money(50), _checkout.GetTotal());
         }
     }
-
-
 }
