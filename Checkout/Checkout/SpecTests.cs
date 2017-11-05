@@ -49,9 +49,9 @@ namespace Checkout
     {
         public char Sku { get; }
         public int Quantity { get; }
-        public int Amount { get; }
+        public Money Amount { get; }
 
-        public DiscountRule(char sku, int quantity, int amount)
+        public DiscountRule(char sku, int quantity, Money amount)
         {
             Sku = sku;
             Quantity = quantity;
@@ -62,7 +62,7 @@ namespace Checkout
         {
             var skuCount = basket.Count(sku => sku.Equals(Sku));
             var instances = skuCount / Quantity;
-            return new Money(instances * Amount);
+            return Amount.MultiplyBy(instances);
         }
     }
     public class Money
@@ -88,6 +88,11 @@ namespace Checkout
         public override string ToString()
         {
             return _value.ToString();
+        }
+
+        public Money MultiplyBy(int instances)
+        {
+            return new Money(instances * _value);
         }
     }
     [TestClass]
